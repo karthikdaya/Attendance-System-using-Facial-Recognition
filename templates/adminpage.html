@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+<head>
+    <title>Student details</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="{{ url_for('homepage') }}">Home</a>
+    <nav>
+        <a href="#menu">Menu</a>
+    </nav>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{{ url_for('homepage') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('signup') }}">Signup</a></li>
+        <li><a href="{{ url_for('admin') }}">Admin Signup</a></li>
+        <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% if session['admin'] is defined %}
+        <li><a href="{{ url_for('showcam') }}">Camera</a></li>
+        {% endif %}
+        {% if session['admin'] is defined or session['student'] is defined %}
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+
+
+<form action="/details" method="POST">
+    <select name="sem" id="sem">
+        <option value="">- Select SEM</option>
+        {% if now.month >= 8 and now.month <=12%}
+
+        <option value="1">SEM 1</option>
+
+        <option value="3">SEM 3</option>
+
+        <option value="5">SEM 5</option>
+
+        <option value="7">SEM 7</option>
+      {% endif  %}
+     {% if now.month >= 1 and now.month <=7%}
+         <option value="2">SEM 2</option>
+          <option value="4">SEM 4</option>
+          <option value="6">SEM 6</option>
+          <option value="8">SEM 8</option>
+        {% endif %}
+    </select>
+    <input type="submit" name="submit" value="GO">
+</form>
+
+{% if rows is defined %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+        <tr>
+            <th>USN</th>
+            <th>Name</th>
+
+            <th>Branch</th>
+            <th>Phno</th>
+            <th>Sem</th>
+            <th>{{ sub[1]}}</th>
+            <th>{{ sub[2]}}</th>
+            <th>{{ sub[3]}}</th>
+            <th>{{ sub[4]}}</th>
+            <th>{{ sub[5]}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{row[0]}}</td>
+            <td>{{row[1]}}</td>
+
+            <td>{{row[2]}}</td>
+            <td>{{row[4]}}</td>
+            <td> {{row[5]}}</td>
+            <td> {{row[8]}}</td>
+            <td> {{row[9]}}</td>
+            <td> {{row[10]}}</td>
+            <td> {{row[11]}}</td>
+            <td> {{row[12]}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <div class="content">
+            <section>
+                <h4>Credits</h4>
+                <ul class="alt">
+                    <li>Adithya S H : 1RN15CS011</a></li>
+                    <li>Ankush Chavan : 1RN15CS020</a></li>
+                    <li>Karthik D : 1RN15CS049</a></li>
+                    <li>Bhargav A K : 1RN15CS034</a></li>
+                    <li>Kishore Kumar P : 1RN15CS051</a></li>
+                </ul>
+            </section>
+
+        </div>
+
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/browser.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/util.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+<head>
+    <title>Student details</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="{{ url_for('homepage') }}">Home</a>
+    <nav>
+        <a href="#menu">Menu</a>
+    </nav>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{{ url_for('homepage') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('signup') }}">Signup</a></li>
+        <li><a href="{{ url_for('admin') }}">Admin Signup</a></li>
+        <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% if session['admin'] is defined %}
+        <li><a href="{{ url_for('showcam') }}">Camera</a></li>
+        {% endif %}
+        {% if session['admin'] is defined or session['student'] is defined %}
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+<br>
+<img class="st-img" src="{{ url_for('static', filename=row[3][7:]) }}" class="rounded mx-auto d-block" alt="...">
+
+<ul class="actions stacked" style="float:right;margin-right:3%;">
+    <li><a href="/editstudent/{{row[5]}}" style="width:115%;" class="button primary small fit">Edit</a></li>
+</ul>
+<br>
+<div class="table-wrapper details">
+    <table class="t-modify">
+        <tbody>
+        <tr>
+            <td class="row-text">Name</td>
+            <td class="row-text">{{row[1]}}</td>
+        </tr>
+        <tr>
+            <td class="row-text">USN</td>
+            <td class="row-text">{{row[0]}}</td>
+        </tr>
+        <tr>
+            <td class="row-text">Branch</td>
+            <td class="row-text">{{row[2]}}</td>
+        </tr>
+        <tr>
+            <td class="row-text">Phone No</td>
+            <td class="row-text">{{row[4]}}</td>
+        </tr>
+        <tr>
+            <td class="row-text">Sem</td>
+            <td class="row-text">{{row[5]}}</td>
+        </tr>
+        <tr>
+            <td class="row-text">{{sub[1]}}</td>
+            <td class="row-text">{{row[8]}}</td>
+        </tr>
+        </tr>
+        <tr>
+            <td class="row-text">{{sub[2]}}</td>
+            <td class="row-text">{{row[9]}}</td>
+        </tr>
+        </tr>
+        <tr>
+            <td class="row-text">{{sub[3]}}</td>
+            <td class="row-text">{{row[10]}}</td>
+        </tr>
+        </tr>
+        <tr>
+            <td class="row-text">{{sub[4]}}</td>
+            <td class="row-text">{{row[11]}}</td>
+        </tr>
+        </tr>
+        <tr>
+            <td class="row-text">{{sub[5]}}</td>
+            <td class="row-text">{{row[12]}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <div class="content">
+            <section>
+                <h4>Credits</h4>
+                <ul class="alt">
+                    <li>Adithya S H : 1RN15CS011</a></li>
+                    <li>Ankush Chavan : 1RN15CS020</a></li>
+                    <li>Karthik D : 1RN15CS049</a></li>
+                    <li>Bhargav A K : 1RN15CS034</a></li>
+                    <li>Kishore Kumar P : 1RN15CS051</a></li>
+                </ul>
+            </section>
+
+        </div>
+
+    </div>
+</footer>
+<!-- Scripts -->
+<script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/browser.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/util.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+</html>
+

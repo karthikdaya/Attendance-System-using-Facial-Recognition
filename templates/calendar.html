@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html style="height:100%;">
+<head>
+    <title>Calendar</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
+</head>
+<body style="height:100%;" class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="{{url_for('homepage')}}">Home</a>
+    <nav>
+        <a href="#menu">Menu</a>
+    </nav>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{{ url_for('homepage') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('signup') }}">Signup</a></li>
+        <li><a href="{{ url_for('admin') }}">Admin Signup</a></li>
+        <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% if session['admin'] is defined %}
+        <li><a href="{{ url_for('showcam') }}">Camera</a></li>
+        {% endif %}
+        {% if session['admin'] is defined or session['student'] is defined %}
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+
+<form action="/calendar" method="POST">
+    <select name="sem" id="sem">
+        <option value="">- Select SEM</option>
+        {% if now.month >= 8 and now.month <=12%}
+        <option value="1">SEM 1</option>
+        <option value="3">SEM 3</option>
+        <option value="5">SEM 5</option>
+        <option value="7">SEM 7</option>
+        {% endif %}
+        {% if now.month >= 1 and now.month <=7%}
+        <option value="2">SEM 2</option>
+        <option value="4">SEM 4</option>
+        <option value="6">SEM 6</option>
+        <option value="8">SEM 8</option>
+        {% endif %}
+    </select>
+    <input type="submit" name="submit" value="GO">
+</form>
+
+{% if calendar == 'FirstSem' or calendar == 'SecondSem' %}
+<iframe src="https://calendar.google.com/calendar/b/1/embed?showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=0a799g10j77tnkbeis8bad2r0s%40group.calendar.google.com&amp;color=%2323164E&amp;ctz=Asia%2FCalcutta"
+        style="border-width:0;margin-top:2%;" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+{% endif %}
+
+
+{% if calendar == 'ThirdSem' or calendar == 'FourthSem' %}
+<iframe src="https://calendar.google.com/calendar/embed?showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=6qqlv4qv37cl95dob1mknauvhc%40group.calendar.google.com&amp;color=%238C500B&amp;ctz=Asia%2FCalcutta"
+        style="border-width:0;margin-top:2%;" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+{% endif %}
+
+{% if calendar == 'FifthSem' or calendar == 'SixthSem' %}
+<iframe src="https://calendar.google.com/calendar/embed?showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=ju8270ettpthjkuu3pqm60in2c%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Asia%2FCalcutta"
+        style="border-width:0:margin-top:2%;" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+{% endif %}
+{% if calendar == 'SeventhSem' or calendar == 'EightSem' %}
+<iframe src="https://calendar.google.com/calendar/embed?showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=1ft2u087qunvhp1doimj54tfes%40group.calendar.google.com&amp;color=%238C500B&amp;ctz=Asia%2FCalcutta"
+        style="border-width:0:margin-top:2%;" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+{% endif %}
+
+<!-- Scripts -->
+<script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/browser.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/util.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+</html>

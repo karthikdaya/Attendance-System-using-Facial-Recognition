@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+<head>
+    <title>Student details</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
+    <script src="{{ url_for('static', filename='webcam.js') }}"></script>
+    <script src="{{ url_for('static', filename='webcam1.js') }}"></script>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="{{ url_for('homepage') }}">Home</a>
+    <nav>
+        <a href="#menu">Menu</a>
+    </nav>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{{ url_for('homepage') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('signup') }}">Signup</a></li>
+        <li><a href="{{ url_for('admin') }}">Admin Signup</a></li>
+        <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% if session['admin'] is defined %}
+        <li><a href="{{ url_for('showcam') }}">Camera</a></li>
+        {% endif %}
+        {% if session['admin'] is defined or session['student'] is defined %}
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+        {% endif %}
+
+    </ul>
+</nav>
+<br>
+<div>
+    <a href="/login" style="display:inline;float:left;" class="button primary small">Don't Save</a>
+    <button style="display:inline;float:right;" class="button primary small" onclick="upload2()">Save</button>
+</div>
+<img class="st-img" id="img" style="margin-left:35%;" src="{{ url_for('static', filename=row[3][7:]) }}"
+     class="rounded mx-auto d-block" alt="...">
+<br>
+<!--		<ul class="actions " id="btn-pic">
+            <li style="margin-left:45%;"><a href="#" onclick="vanish()"  class="button primary small" >Change Pic</a></li>
+        </ul>  -->
+
+<form method="POST" enctype="multipart/form-data" id="myForm">
+    <div class="col-6 col-12-small">
+        <input style="margin-left:50%;" type="checkbox" id="checkbox-alpha" name="checkbox">
+        <label for="checkbox-alpha">Change Pic</label>
+    </div>
+    <div class="camera" id="camera" style="display:None;float:left;margin-left:40%">
+        <div id="my_camera"></div>
+        <input type="button" class="btn-snap" onclick="snap()" value="Snap"/>
+        <div id="results"></div>
+        <div id="message"></div>
+    </div>
+    <div class="table-wrapper details">
+        <table class="t-modify">
+            <tbody>
+            <tr>
+                <td class="row-text">Name</td>
+                <td class="row-text"><input type="text" name="student_name" value="{{row[1]}}" required></td>
+            </tr>
+            <tr>
+                <td class="row-text">USN</td>
+                <td class="row-text">{{row[0]}}</td>
+            </tr>
+            <tr>
+                <td class="row-text">Branch</td>
+                <td class="row-text"><input type="text" name="student_branch" value="{{row[2]}}" required></td>
+            </tr>
+            <tr>
+                <td class="row-text">Phone No</td>
+                <td class="row-text"><input type="text" name="student_phno" value="{{row[4]}}" required></td>
+            </tr>
+            <tr>
+                <td class="row-text">Sem</td>
+                <td class="row-text"><input type="text" name="student_sem" value="{{row[5]}}" required></td>
+            </tr>
+            <tr>
+                <td class="row-text">{{sub[1]}}</td>
+                <td class="row-text">{{row[8]}}</td>
+            </tr>
+            </tr>
+            <tr>
+                <td class="row-text">{{sub[2]}}</td>
+                <td class="row-text">{{row[9]}}</td>
+            </tr>
+            </tr>
+            <tr>
+                <td class="row-text">{{sub[3]}}</td>
+                <td class="row-text">{{row[10]}}</td>
+            </tr>
+            </tr>
+            <tr>
+                <td class="row-text">{{sub[4]}}</td>
+                <td class="row-text">{{row[11]}}</td>
+            </tr>
+            </tr>
+            <tr>
+                <td class="row-text">{{sub[5]}}</td>
+                <td class="row-text">{{row[12]}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <div class="content">
+            <section>
+                <h4>Credits</h4>
+                <ul class="alt">
+                    <li>Adithya S H : 1RN15CS011</a></li>
+                    <li>Ankush Chavan : 1RN15CS020</a></li>
+                    <li>Karthik D : 1RN15CS049</a></li>
+                    <li>Bhargav A K : 1RN15CS034</a></li>
+                    <li>Kishore Kumar P : 1RN15CS051</a></li>
+                </ul>
+            </section>
+
+        </div>
+
+    </div>
+</footer>
+<!-- Scripts -->
+<script>
+
+function vanish()
+{
+
+    if(document.getElementById('camera').style.display=='block'){
+        document.getElementById('camera').style.display='None';
+                document.getElementById('img').style.display='inline';
+       }
+      else{
+    document.getElementById('img').style.display='None';
+    document.getElementById('camera').style.display='block';
+    ShowCam();
+    }
+
+
+
+}
+
+var radio = document.querySelector('#checkbox-alpha');
+radio.addEventListener("click",vanish);
+
+</script>
+<script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/browser.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/util.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/main.js')}}"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+<head>
+    <title>Camera page for uploading image</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
+    <script src="{{ url_for('static', filename='webcam.js') }}"></script>
+    <script src="{{ url_for('static', filename='webcam1.js') }}"></script>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="{{url_for('homepage')}}">Attendance System</a>
+    <nav>
+        <a href="#menu">Menu</a>
+    </nav>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{{ url_for('homepage') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('signup') }}">Signup</a></li>
+        <li><a href="{{ url_for('admin') }}">Admin Signup</a></li>
+        <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
+
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% if session['admin'] is defined %}
+        <li><a href="{{ url_for('showcam') }}">Camera</a></li>
+        {% endif %}
+        {% if session['admin'] is defined or session['student'] is defined %}
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<!-- Heading -->
+<div id="heading">
+    <h1>Upload your Image </h1>
+</div>
+
+
+<!--	{%  with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <h3>{{ message }}</h3>
+        {% endfor %}
+    {% endif %}
+  {% endwith %} -->
+<div id="camera-box">
+    <div class="left">
+        <div>
+            <form method="POST" enctype="multipart/form-data" id="myForm">
+                <select name="sem" id="sem" style="width:36%" required>
+                    <option value="">- Select SEM</option>
+                 {% if now.month >= 8 and now.month <=12%}
+                    <option value="1">SEM 1</option>
+                     <option value="3">SEM 3</option>
+                    <option value="5">SEM 5</option>
+                    <option value="7">SEM 7</option>
+                {% endif  %}
+                {% if now.month >= 1 and now.month <=7%}
+                    <option value="2">SEM 2</option>
+                    <option value="4">SEM 4</option>
+                    <option value="6">SEM 6</option>
+                    <option value="8">SEM 8</option>
+                {% endif %}
+                </select>
+            </form>
+            <div id="my_camera"></div>
+            <input type="button" onclick="snap()" value="Snap"/>
+            <div id="results"></div>
+            <div id="message"></div>
+            <BR>
+            <input type="button" value="Upload" onclick="upload1()"/>
+
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <div class="content">
+            <section>
+                <h4>Credits</h4>
+                <ul class="alt">
+                    <li>Adithya S H : 1RN15CS011</a></li>
+                    <li>Ankush Chavan : 1RN15CS020</a></li>
+                    <li>Karthik D : 1RN15CS049</a></li>
+                    <li>Bhargav A K : 1RN15CS034</a></li>
+                    <li>Kishore Kumar P : 1RN15CS051</a></li>
+                </ul>
+            </section>
+
+        </div>
+
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/browser.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/util.js')}}"></script>
+<script src="{{url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+</html>
