@@ -62,7 +62,9 @@ def showcam():
                 # GET ALL THE IMAGE LOCATIONS IN DATABASE
                 cur.execute("SELECT USN,image from students where sem = ?", (sem,))
                 rows = cur.fetchall()
+                msg = ''
                 for row in rows:
+                    print(row)
                     # PROCESS THE CAPTURED IMAGE AND DATABASE IMAGE
                     known_image = face_recognition.load_image_file(row[1])
                     unknown_image = face_recognition.load_image_file(img_name)
@@ -73,6 +75,7 @@ def showcam():
 
                     # COMPARE THE ENCODINGS OF BOTH THE IMAGES
                     results = face_recognition.compare_faces([known_encoding], unknown_encoding)
+                    print('---------',results)
                     if str(results[0]) == "True":
                         print(row[0])
                         found = 'YES'
@@ -88,35 +91,64 @@ def showcam():
                         # GET THE DETAILS OF CLASSES ATTENDED FROM DATABASE
                         cur.execute("SELECT * from " + t_name + " where USN = ?", (row[0],))
                         sub_row = cur.fetchone()
+                        print(sub_row)
 
                         # GET THE INDEX OF THE SUBJECT IN DATABASE
                         index = col_name_list.index(subject)
 
                         now1 = datetime.datetime.now();
                         # print(db_time.hour, db_time.day, db_time.month, db_time.year)
-                        if sub_row[6] is None:
+
+                        if t_name != 'EightSem' and  sub_row[6] is None:
                             cur.execute("UPDATE " + t_name + " set LastModified  = ? where USN=?", (now1, row[0]))
                             # UPDATE THE ATTENDANCE
                             cur.execute("UPDATE " + t_name + " set '" + subject + "' = ? where USN=?",
                                         (sub_row[index] + 1, row[0]))
+                        elif t_name == 'EightSem' and  sub_row[4] is None:
+                            cur.execute("UPDATE " + t_name + " set LastModified  = ? where USN=?", (now1, row[0]))
+                            # UPDATE THE ATTENDANCE
+                            cur.execute("UPDATE " + t_name + " set '" + subject + "' = ? where USN=?",
+                                        (sub_row[index] + 1, row[0]))
+
                         else:
-                            last = datetime.datetime.strptime(sub_row[6], "%Y-%m-%d %H:%M:%S.%f")
-                            if now1.day == last.day and now1.month == last.month and now1.year == last.year:
-                                if now1.hour > last.hour:
+                            if t_name != 'EightSem' :
+                                last = datetime.datetime.strptime(sub_row[6], "%Y-%m-%d %H:%M:%S.%f")
+                                if now1.day == last.day and now1.month == last.month and now1.year == last.year:
+                                    if now1.hour > last.hour:
+                                        # UPDATE THE ATTENDANCE
+                                        cur.execute("UPDATE " + t_name + " set '" + subject + "' = ? where USN=?",
+                                                    (sub_row[index] + 1, row[0]))
+                                        cur.execute("UPDATE " + t_name + " set LastModified  = ? where USN=?",
+                                                    (now1, row[0]))
+                                        msg = "Attendance updated Successfuly"
+                                    else:
+                                        msg = "Attendance already Updated"
+                                else:
+                                    # UPDATE THE ATTENDANCE
+                                    cur.execute("UPDATE " + t_name + " set '" + subject + "' = ? where USN=?",
+                                                (sub_row[index] + 1, row[0]))
+                                    cur.execute("UPDATE " + t_name + " set LastModified  = ? where USN=?", (now1, row[0]))
+                                    msg = "Attendance updated Successfuly"
+                            else:
+                                last = datetime.datetime.strptime(sub_row[4], "%Y-%m-%d %H:%M:%S.%f")
+                                if now1.day == last.day and now1.month == last.month and now1.year == last.year:
+                                    if now1.hour > last.hour:
+                                        # UPDATE THE ATTENDANCE
+                                        cur.execute("UPDATE " + t_name + " set '" + subject + "' = ? where USN=?",
+                                                    (sub_row[index] + 1, row[0]))
+                                        cur.execute("UPDATE " + t_name + " set LastModified  = ? where USN=?",
+                                                    (now1, row[0]))
+                                        msg = "Attendance updated Successfuly"
+                                    else:
+                                        msg = "Attendance already Updated"
+                                else:
                                     # UPDATE THE ATTENDANCE
                                     cur.execute("UPDATE " + t_name + " set '" + subject + "' = ? where USN=?",
                                                 (sub_row[index] + 1, row[0]))
                                     cur.execute("UPDATE " + t_name + " set LastModified  = ? where USN=?",
                                                 (now1, row[0]))
                                     msg = "Attendance updated Successfuly"
-                                else:
-                                    msg = "Attendance already Updated"
-                            else:
-                                # UPDATE THE ATTENDANCE
-                                cur.execute("UPDATE " + t_name + " set '" + subject + "' = ? where USN=?",
-                                            (sub_row[index] + 1, row[0]))
-                                cur.execute("UPDATE " + t_name + " set LastModified  = ? where USN=?", (now1, row[0]))
-                                msg = "Attendance updated Successfuly"
+
                         con.commit()
                         break
                 if found == 'NO':
@@ -128,7 +160,8 @@ def showcam():
             msg = 'Person not found'
         finally:
             con.close()
-            print(msg)
+            if msg == '' :
+                msg = "Attendance updated Successfuly"
             return jsonify({'reply': msg})
 
 
